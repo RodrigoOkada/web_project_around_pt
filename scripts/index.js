@@ -47,8 +47,10 @@ const closeNewLocal = newLocalPopup.querySelector(".popup__button-close");
 
 function openPopup(modal) {
   modal.classList.add("popup-opened");
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileDescription.textContent;
+  if (modal === personPopup) {
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileDescription.textContent;
+  }
 }
 function closePopup(modal) {
   modal.classList.remove("popup-opened");
@@ -106,6 +108,8 @@ function getCardElement(name, link) {
   cardImage.addEventListener("click", () => {
     openPopup(popup);
     popupImage.src = link;
+    const popupTitle = popup.querySelector(".popup__image-title");
+    popupTitle.textContent = name;
   });
 
   const closeButton = popup.querySelector(".popup__button-close");
