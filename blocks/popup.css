@@ -68,17 +68,44 @@
   width: 100%;
 }
 
+.popup__form-input_type_error {
+  border-bottom-color: #ff0000;
+}
+
+.popup__form-error {
+  color: #ff0000;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 5px;
+  display: block;
+  min-height: 14px;
+}
+
 .popup__form-button {
   margin-top: 18.26px;
   background-color: black;
   color: #ffffff;
   width: 358px;
   height: 50.15px;
+  border: none;
+  transition: opacity 0.3s;
 }
 
 .popup__form-button:hover {
   opacity: 80%;
   cursor: pointer;
+}
+
+.popup__form-button_disabled {
+  background-color: #ffffff;
+  color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: default;
+  opacity: 1;
+}
+
+.popup__form-button_disabled:hover {
+  opacity: 1;
 }
 
 .popup__container {

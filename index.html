@@ -62,17 +62,31 @@
           />
         </button>
         <h3 class="popup__title">Editar Perfil</h3>
-        <form class="popup__form form popup__form-person">
-          <label class="popup__form-label"
-            ><input
+        <form class="popup__form form popup__form-person" novalidate>
+          <label class="popup__form-label">
+            <input
               class="popup__form-input popup__form-input-name"
               placeholder="Seu nome"
-          /></label>
-          <label class="popup__form-label"
-            ><input
+              id="owner-name"
+              name="name"
+              required
+              minlength="2"
+              maxlength="40"
+            />
+            <span class="popup__form-error owner-name-error"></span>
+          </label>
+          <label class="popup__form-label">
+            <input
               class="popup__form-input popup__form-input-profession"
               placeholder="Sua profissão"
-          /></label>
+              id="owner-profession"
+              name="profession"
+              required
+              minlength="2"
+              maxlength="200"
+            />
+            <span class="popup__form-error owner-profession-error"></span>
+          </label>
           <button type="submit" class="popup__form-button">Salvar</button>
         </form>
       </div>
@@ -88,20 +102,30 @@
           />
         </button>
         <h3 class="popup__title">Novo Local</h3>
-        <form class="popup__form form popup__form-local">
+        <form class="popup__form form popup__form-local" novalidate>
           <label class="popup__form-label"
             ><input
               class="popup__form-input popup__form-input-title"
               placeholder="Título"
+              id="local-title"
+              name="title"
               required
-          /></label>
+              minlength="2"
+              maxlength="30"
+            />
+            <span class="popup__form-error local-title-error"></span>
+          </label>
           <label class="popup__form-label"
             ><input
               class="popup__form-input popup__form-input-link"
               placeholder="Link da imagem"
+              id="local-link"
+              name="link"
               type="url"
               required
-          /></label>
+            />
+            <span class="popup__form-error local-link-error"></span>
+          </label>
           <button type="submit" class="popup__form-button">Criar</button>
         </form>
       </div>
