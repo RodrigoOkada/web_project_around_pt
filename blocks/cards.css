@@ -21,6 +21,12 @@
 .card__image {
   width: 282px;
   height: 282px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.card__image:hover {
+  opacity: 0.8;
 }
 
 .card__footer {

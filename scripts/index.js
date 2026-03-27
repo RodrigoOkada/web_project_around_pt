@@ -1,3 +1,5 @@
+// --- CONSTANTES ---
+
 const popupImage = document.querySelector(".popup__image-enlarge");
 const editButton = document.querySelector(".profile__info-edit");
 const formPerson = document.querySelector(".popup__form-person");
@@ -9,6 +11,17 @@ const profileDescription = document.querySelector(".profile__info-description");
 const cardTemplate = document
   .querySelector("#card-template")
   .content.querySelector(".card");
+const cardWrapper = document.querySelector(".cards__list");
+const titleInput = document.querySelector(".popup__form-input-title");
+const linkInput = document.querySelector(".popup__form-input-link");
+const personPopup = document.querySelector(".popup-profile");
+const newLocalPopup = document.querySelector(".popup-newlocal");
+const addButton = document.querySelector(".profile__info-add");
+const closePersonButton = personPopup.querySelector(".popup__button-close");
+const closeNewLocal = newLocalPopup.querySelector(".popup__button-close");
+const imagePopup = document.querySelector(".popup__image");
+const closeImageButton = imagePopup.querySelector(".popup__button-close");
+
 const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -35,93 +48,6 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
   },
 ];
-const cardWrapper = document.querySelector(".cards__list");
-const titleInput = document.querySelector(".popup__form-input-title");
-const linkInput = document.querySelector(".popup__form-input-link");
-const personPopup = document.querySelector(".popup-profile");
-const newLocalPopup = document.querySelector(".popup-newlocal");
-const addButton = document.querySelector(".profile__info-add");
-const closePersonButton = personPopup.querySelector(".popup__button-close");
-const closeNewLocal = newLocalPopup.querySelector(".popup__button-close");
-
-// --- LÓGICA DE VALIDAÇÃO ---
-
-const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add("popup__form-input_type_error");
-  errorElement.textContent = errorMessage;
-};
-
-const hideInputError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove("popup__form-input_type_error");
-  errorElement.textContent = "";
-};
-
-const checkInputValidity = (formElement, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-};
-
-const hasInvalidInput = (inputList) => {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-};
-
-const toggleButtonState = (inputList, buttonElement) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add("popup__form-button_disabled");
-    buttonElement.disabled = true;
-  } else {
-    buttonElement.classList.remove("popup__form-button_disabled");
-    buttonElement.disabled = false;
-  }
-};
-
-const resetValidation = (formElement) => {
-  const inputList = Array.from(
-    formElement.querySelectorAll(".popup__form-input"),
-  );
-  const buttonElement = formElement.querySelector(".popup__form-button");
-
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement);
-  });
-
-  toggleButtonState(inputList, buttonElement);
-};
-
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(
-    formElement.querySelectorAll(".popup__form-input"),
-  );
-  const buttonElement = formElement.querySelector(".popup__form-button");
-
-  toggleButtonState(inputList, buttonElement);
-
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
-    });
-  });
-};
-
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(".popup__form"));
-  formList.forEach((formElement) => {
-    formElement.addEventListener("submit", function (evt) {
-      evt.preventDefault();
-    });
-    setEventListeners(formElement);
-  });
-};
-
-enableValidation();
 
 // --- FUNÇÕES DE POPUP ---
 
@@ -147,6 +73,7 @@ function openPopup(modal) {
     resetValidation(formNewLocal);
   }
 }
+
 function closePopup(modal) {
   modal.classList.remove("popup-opened");
   document.removeEventListener("keydown", handleEscClose);
@@ -158,10 +85,7 @@ const closePopupByOverlay = (evt) => {
   }
 };
 
-// Ouvintes de fechamento por sobreposição a todos os popups
-document.querySelectorAll(".popup").forEach((popup) => {
-  popup.addEventListener("mousedown", closePopupByOverlay);
-});
+// --- FUNÇÕES DE FORMULÁRIO ---
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -176,13 +100,6 @@ function handleCardFormSubmit(evt) {
   closePopup(newLocalPopup);
 }
 
-editButton.addEventListener("click", () => openPopup(personPopup));
-addButton.addEventListener("click", () => openPopup(newLocalPopup));
-closePersonButton.addEventListener("click", () => closePopup(personPopup));
-closeNewLocal.addEventListener("click", () => closePopup(newLocalPopup));
-formPerson.addEventListener("submit", handleProfileFormSubmit);
-formNewLocal.addEventListener("submit", handleCardFormSubmit);
-
 // --- FUNÇÕES DE CARD ---
 
 function getCardElement(name, link) {
@@ -191,7 +108,6 @@ function getCardElement(name, link) {
   const cardImage = cardElement.querySelector(".card__image");
   const cardTrash = cardElement.querySelector(".card__trash");
   const cardLikeButton = cardElement.querySelector(".card__button-like");
-  const imagePopup = document.querySelector(".popup__image");
 
   cardTitle.textContent = name;
   cardImage.src = link;
@@ -218,11 +134,6 @@ function getCardElement(name, link) {
     }
   });
 
-  const closeImageButton = imagePopup.querySelector(".popup__button-close");
-  closeImageButton.addEventListener("click", () => {
-    closePopup(imagePopup);
-  });
-
   return cardElement;
 }
 
@@ -230,6 +141,24 @@ function renderCard(name, link, container) {
   container.prepend(getCardElement(name, link));
 }
 
+// --- INICIALIZAÇÃO ---
+
+enableValidation();
+
+editButton.addEventListener("click", () => openPopup(personPopup));
+addButton.addEventListener("click", () => openPopup(newLocalPopup));
+closePersonButton.addEventListener("click", () => closePopup(personPopup));
+closeNewLocal.addEventListener("click", () => closePopup(newLocalPopup));
+closeImageButton.addEventListener("click", () => closePopup(imagePopup));
+formPerson.addEventListener("submit", handleProfileFormSubmit);
+formNewLocal.addEventListener("submit", handleCardFormSubmit);
+
+// Ouvintes de fechamento por sobreposição a todos os popups
+document.querySelectorAll(".popup").forEach((popup) => {
+  popup.addEventListener("mousedown", closePopupByOverlay);
+});
+
+// Renderizar cartões iniciais
 initialCards.forEach((card) => {
   renderCard(card.name, card.link, cardWrapper);
 });

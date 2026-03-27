@@ -15,7 +15,7 @@
 
 .profile__info {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   flex-wrap: wrap;
   max-width: 415px;
@@ -32,6 +32,7 @@
 .profile__info-name {
   font-size: 42px;
   line-height: 48px;
+  text-align: left;
   color: #ffffff;
   margin: 0;
   font-weight: 500;
