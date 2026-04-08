@@ -21,6 +21,7 @@ const closePersonButton = personPopup.querySelector(".popup__button-close");
 const closeNewLocal = newLocalPopup.querySelector(".popup__button-close");
 const imagePopup = document.querySelector(".popup__image");
 const closeImageButton = imagePopup.querySelector(".popup__button-close");
+const popupTitle = imagePopup.querySelector(".popup__image-title");
 
 const initialCards = [
   {
@@ -63,15 +64,17 @@ const handleEscClose = (evt) => {
 function openPopup(modal) {
   modal.classList.add("popup-opened");
   document.addEventListener("keydown", handleEscClose);
+}
 
-  if (modal === personPopup) {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileDescription.textContent;
-    resetValidation(formPerson);
-  } else if (modal === newLocalPopup) {
-    formNewLocal.reset();
-    resetValidation(formNewLocal);
-  }
+function prepareProfileForm() {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDescription.textContent;
+  resetValidation(formPerson);
+}
+
+function prepareNewLocalForm() {
+  formNewLocal.reset();
+  resetValidation(formNewLocal);
 }
 
 function closePopup(modal) {
@@ -121,16 +124,22 @@ function getCardElement(name, link) {
     openPopup(imagePopup);
     popupImage.src = link;
     popupImage.alt = name;
-    const popupTitle = imagePopup.querySelector(".popup__image-title");
     popupTitle.textContent = name;
   });
 
   cardLikeButton.addEventListener("click", function () {
     const likeIcon = this.querySelector(".card__like-icon");
-    if (likeIcon.src.includes("Like.png")) {
-      likeIcon.src = "./images/Like-dark.png";
-    } else {
+
+    if (!this.dataset.liked) {
+      this.dataset.liked = "false";
+    }
+
+    if (this.dataset.liked === "true") {
+      this.dataset.liked = "false";
       likeIcon.src = "./images/Like.png";
+    } else {
+      this.dataset.liked = "true";
+      likeIcon.src = "./images/Like-dark.png";
     }
   });
 
@@ -145,8 +154,14 @@ function renderCard(name, link, container) {
 
 enableValidation();
 
-editButton.addEventListener("click", () => openPopup(personPopup));
-addButton.addEventListener("click", () => openPopup(newLocalPopup));
+editButton.addEventListener("click", () => {
+  openPopup(personPopup);
+  prepareProfileForm();
+});
+addButton.addEventListener("click", () => {
+  openPopup(newLocalPopup);
+  prepareNewLocalForm();
+});
 closePersonButton.addEventListener("click", () => closePopup(personPopup));
 closeNewLocal.addEventListener("click", () => closePopup(newLocalPopup));
 closeImageButton.addEventListener("click", () => closePopup(imagePopup));

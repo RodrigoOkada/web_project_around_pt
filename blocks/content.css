@@ -36,6 +36,10 @@
   color: #ffffff;
   margin: 0;
   font-weight: 500;
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile__info-edit {
@@ -67,6 +71,10 @@
   font-size: 18px;
   line-height: 100%;
   width: 100%;
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile__info-add {
